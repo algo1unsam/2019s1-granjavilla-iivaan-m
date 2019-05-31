@@ -37,21 +37,21 @@ class Tomaco inherits Planta {
 }
 
 object cero {
-	method crecer(planta) { planta.estado(uno)}
+	method crecer(planta) { planta.etapa(uno)}
 	method imagen(planta) = planta.imagenCero()
 }
 
 object uno {
-	method crecer(planta) { planta.estado(dos)}
+	method crecer(planta) { planta.etapa(dos)}
 	method imagen(planta) = planta.imagenUno()
 }
 
 object dos {
-	method crecer(planta) { planta.estado(tres)}
+	method crecer(planta) { planta.etapa(tres)}
 	method imagen(planta) = planta.imagenDos()
 }
 
 object tres {
-	method crecer(planta) { planta.estado(cero)}
+	method crecer(planta) { planta.etapa(cero)}
 	method imagen(planta) = planta.imagenTres()
 }
