@@ -1,57 +1,58 @@
 import wollok.game.*
 import hector.*
+import estados.*
 
 class Planta {
 	var property position
 	
-	var property etapa = cero
+	method cosechate(granjero) {
+		if ( self.esCosechable() ) {
+			granjero.cosecho(self)
+			granjero.acumularOro(self.oro())
+			game.removeVisual(self)
+		} else throw new Exception ("Aún no cosechable")
+	}
 	
-	method crecer() { etapa.crecer(self)}
-	method image() = etapa.imagen(self)
+//	method vendete(granjero) {
+//		granjero.sumarOro(self.oro())
+//	}
+
 }
 
 class Maiz inherits Planta {
+	var property estado = baby
+	var property oro = estado.oro()
 	
-	method imagenCero() = "corn_baby.png"
-	method imagenUno() = "corn_adult.png"
-	method imagenDos() = "corn_adult.png"
-	method imagenTres() = "corn_adult.png"
+	method image() = estado.imagen()
+	
+	method crecer() {estado = adult}
+	
+	method esCosechable() = estado == adult
 }
 
 class Trigo inherits Planta {
+	var property etapa = cero
+	var property oro = etapa.oro()
+
+	method image() = etapa.imagen(self)
 	method imagenCero() = "wheat_0.png"
 	method imagenUno() = "wheat_1.png"
 	method imagenDos() = "wheat_2.png"
 	method imagenTres() = "wheat_3.png"
+	
+	method crecer() {etapa.crecer(self)}
+	
+	method esCosechable() = etapa == dos || etapa == tres
 }
 
 class Tomaco inherits Planta {
-	method imagenCero() = "tomaco.png"
-	method imagenUno() = "tomaco.png"
-	method imagenDos() = "tomaco.png"
-	method imagenTres() = "tomaco.png"
+	var property oro = 80
 	
-	override method crecer() { if (self.position().y() == game.height() ) self.position().y(0)
+	method image() = "tomaco.png"
+	
+	method crecer() { if (self.position().y() == game.height() ) self.position().y(0)
 		else self.position().up(1)
 	}
-}
-
-object cero {
-	method crecer(planta) { planta.etapa(uno)}
-	method imagen(planta) = planta.imagenCero()
-}
-
-object uno {
-	method crecer(planta) { planta.etapa(dos)}
-	method imagen(planta) = planta.imagenUno()
-}
-
-object dos {
-	method crecer(planta) { planta.etapa(tres)}
-	method imagen(planta) = planta.imagenDos()
-}
-
-object tres {
-	method crecer(planta) { planta.etapa(cero)}
-	method imagen(planta) = planta.imagenTres()
+	
+	method esCosechable() = true
 }
