@@ -50,7 +50,8 @@ class Tomaco inherits Planta {
 	
 	method image() = "tomaco.png"
 	
-	method crecer() { if (self.position().y() == game.height() ) self.position().y(0)
+	method crecer() {
+		if (hector.position().y() == game.height() ) self.position().y(0)
 		else self.position().up(1)
 	}
 	
